@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>For Arefa ❤️</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
+
+body{
+  min-height:100vh;
+  background:
+    radial-gradient(circle at top, rgba(255,255,255,.12), transparent 55%),
+    linear-gradient(135deg,#1a103d,#4a1d5f,#b94f8c);
+  overflow-x:hidden;
+  overflow-y:auto;
+  color:white;
+  padding:50px 0;
+}
+
+/* Floating background emojis */
+.bg{
+  position:absolute;
+  opacity:.22;
+  font-size:2.2rem;
+  animation:float 20s linear infinite;
+  pointer-events:none;
+  z-index:1;
+}
+@keyframes float{
+  from{transform:translateY(120vh) rotate(0)}
+  to{transform:translateY(-20vh) rotate(360deg)}
+}
+
+/* Floating photos in background — FIXED */
+.memory{
+  position:absolute;
+  width:240px;
+  border-radius:32px;
+  overflow:hidden;
+  opacity:.45;
+  filter:blur(1.2px);
+  animation:slowFloat 18s ease-in-out infinite;
+  z-index:2;
+}
+.memory::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(to top,rgba(0,0,0,.35),transparent);
+}
+.memory img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+@keyframes slowFloat{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-22px)}
+}
+
+/* Card */
+.card{
+  width:95%;
+  max-width:680px;
+  margin:auto;
+  padding:4rem;
+  border-radius:46px;
+  background:rgba(255,255,255,.18);
+  backdrop-filter:blur(28px);
+  box-shadow:0 45px 120px rgba(0,0,0,.6);
+  text-align:center;
+  position:relative;
+  z-index:5;
+}
+
+/* Teddy */
+.teddy{
+  width:270px;
+  margin-bottom:2rem;
+}
+
+/* Text */
+h1{font-size:2.8rem;margin-bottom:1.2rem;}
+h2{font-weight:500;margin-top:.4rem;}
+p{font-size:1.15rem;line-height:1.9;}
+
+/* Buttons */
+.buttons{
+  display:flex;
+  justify-content:center;
+  gap:2rem;
+  margin-top:3rem;
+  position:relative;
+  height:90px;
+}
+
+button{
+  padding:22px 50px;
+  font-size:1.25rem;
+  border:none;
+  border-radius:50px;
+  cursor:pointer;
+  transition:.35s ease;
+}
+
+#yes{
+  background:linear-gradient(135deg,#ff4d6d,#ff8fa3);
+  color:white;
+  box-shadow:0 18px 45px rgba(255,77,109,.6);
+  transform-origin:center;
+}
+
+#no{
+  background:white;
+  color:#ff4d6d;
+}
+
+/* YES PAGE */
+.yes-page{display:none;}
+
+.note{
+  margin-top:3.8rem;
+  padding:3rem;
+  border-radius:36px;
+  background:rgba(255,255,255,.22);
+  box-shadow:0 35px 80px rgba(0,0,0,.45);
+}
+.cursor{animation:blink 1s infinite;}
+@keyframes blink{50%{opacity:0;}}
+
+/* Final screen */
+.final{
+  position:fixed;
+  inset:0;
+  display:none;
+  justify-content:center;
+  align-items:center;
+  flex-direction:column;
+  background:linear-gradient(135deg,#ff4d6d,#ff8fa3,#ffd6e0);
+  z-index:999;
+}
+.final h1{
+  font-size:3.4rem;
+  text-shadow:0 0 35px rgba(255,255,255,.85);
+}
+.final h2{
+  margin-top:1rem;
+  font-weight:500;
+}
+
+audio{display:none;}
+</style>
+</head>
+
+<body>
+
+<audio id="songQ" loop>
+  <source src="Those Eyes - New West (Lyrics).mp3">
+</audio>
+<audio id="songY" loop>
+  <source src="Gone, Gone, Gone (Phillip,Phillips).mp3">
+</audio>
+
+<script>
+/* Emojis */
+const icons=["💖","💗","✨","💫","🦋","🌙"];
+for(let i=0;i<28;i++){
+  const e=document.createElement("div");
+  e.className="bg";
+  e.textContent=icons[Math.floor(Math.random()*icons.length)];
+  e.style.left=Math.random()*100+"vw";
+  e.style.animationDuration=(16+Math.random()*14)+"s";
+  document.body.appendChild(e);
+}
+
+/* Background memories — SIDE PLACED */
+const placements=[
+  {src:"1.JPG", left:"5vw", top:"18vh"},
+  {src:"2.JPG", right:"5vw", top:"22vh"},
+  {src:"3.JPG", left:"7vw", bottom:"14vh"},
+  {src:"4.JPG", right:"7vw", bottom:"12vh"}
+];
+
+placements.forEach(p=>{
+  const m=document.createElement("div");
+  m.className="memory";
+  Object.assign(m.style,p);
+  m.innerHTML=`<img src="${p.src}">`;
+  document.body.appendChild(m);
+});
+
+/* Audio fades */
+function fadeIn(a,v=.55){
+  a.volume=0;a.play().catch(()=>{});
+  let x=0;
+  const f=setInterval(()=>{
+    x+=.02;a.volume=Math.min(x,v);
+    if(x>=v)clearInterval(f);
+  },120);
+}
+function fadeOut(a){
+  let x=a.volume;
+  const f=setInterval(()=>{
+    x-=.02;a.volume=Math.max(x,0);
+    if(x<=0){a.pause();clearInterval(f);}
+  },120);
+}
+</script>
+
+<div class="card" id="card">
+
+  <div id="main">
+    <img src="Happy Bear Gif.gif" class="teddy">
+    <h1>Arefa, will you be my Valentine? 💌</h1>
+
+    <div class="buttons" id="btnBox">
+      <button id="yes">Yes 💖</button>
+      <button id="no">No 😢</button>
+    </div>
+  </div>
+
+  <div class="yes-page" id="yesPage">
+    <img src="Happy Bear Gif.gif" class="teddy">
+    <h1>You chose me ❤️</h1>
+    <h2>You have made me the happiest person on earth</h2>
+
+    <div class="note">
+      <p id="typed"></p><span class="cursor">|</span>
+    </div>
+  </div>
+
+</div>
+
+<div class="final" id="final">
+  <h1>Happy Valentine’s Day, Arefa ❤️</h1>
+  <h2>I love you sooooo very much!</h2>
+</div>
+
+<script>
+const yes=document.getElementById("yes");
+const no=document.getElementById("no");
+const box=document.getElementById("btnBox");
+const typed=document.getElementById("typed");
+const final=document.getElementById("final");
+
+const songQ=document.getElementById("songQ");
+const songY=document.getElementById("songY");
+
+fadeIn(songQ,.45);
+
+let yesScale=1;
+let activated=false;
+
+function moveNo(){
+  if(!activated){
+    no.style.position="absolute";
+    activated=true;
+  }
+
+  yesScale*=1.22;
+  yes.style.transform=`scale(${yesScale})`;
+
+  const area=card.getBoundingClientRect();
+  const x=Math.random()*(area.width-100);
+  const y=Math.random()*(area.height-80);
+
+  no.style.left=x+"px";
+  no.style.top=y+"px";
+}
+
+no.addEventListener("mouseenter",moveNo);
+no.addEventListener("click",moveNo);
+
+const msg=`Every day with you feels special in its own quiet, beautiful way.
+You make things lighter, warmer, better — just by being you.
+
+I don’t say this lightly, but you truly mean so much to me.
+And I’m really, really glad I get to choose you. ❤️`;
+
+function type(i=0){
+  if(i<msg.length){
+    typed.innerHTML+=msg[i]==="\n"?"<br>":msg[i];
+    setTimeout(()=>type(i+1),35);
+  }else{
+    setTimeout(()=>final.style.display="flex",5500);
+  }
+}
+
+yes.addEventListener("click",()=>{
+  fadeOut(songQ);
+  setTimeout(()=>fadeIn(songY,.6),800);
+
+  document.getElementById("main").style.display="none";
+  document.getElementById("yesPage").style.display="block";
+  no.style.display="none";
+
+  setTimeout(()=>type(),900);
+});
+</script>
+
+</body>
+</html>
